@@ -10,9 +10,9 @@ try {
     foreach ($users as $u) {
         $result[] = [
             "position" => $position++,
-            "name" => $u['nome'],
+            "nome" => $u['nome'],
             "game_coins" => (int)$u['game_coins'],
-            "rank" => $u['patente'],
+            "patente" => $u['patente'],
             "is_current_user" => ($userId != -1 && (int)$u['id'] === $userId)
         ];
     }

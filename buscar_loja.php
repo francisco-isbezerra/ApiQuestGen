@@ -8,10 +8,10 @@ try {
     foreach ($produtos as $p) {
         $result[] = [
             "id" => (int)$p['id'],
-            "name" => $p['nome'],
-            "price" => (int)$p['preco'],
-            "image_url" => $p['imagem_url'],
-            "category" => $p['categoria']
+            "nome" => $p['nome'],
+            "preco" => (int)$p['preco'],
+            "imagem_url" => $p['imagem_url'],
+            "categoria" => $p['categoria']
         ];
     }
     echo json_encode([

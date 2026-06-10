@@ -23,6 +23,20 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
         $pen = $conn->prepare("UPDATE usuarios SET game_coins = GREATEST(0, game_coins - 50) WHERE id = ?");
         $pen->execute([$userId]);
 
+        // Recalculate Rank dynamically based on coins
+        $userQuery = $conn->prepare("SELECT game_coins FROM usuarios WHERE id = ?");
+        $userQuery->execute([$userId]);
+        $u = $userQuery->fetch(PDO::FETCH_ASSOC);
+        $totalCoins = (int)$u['game_coins'];
+
+        $newRank = "RECRUTA";
+        if ($totalCoins >= 10000) $newRank = "LEGENDARY EXPLORER";
+        else if ($totalCoins >= 5000) $newRank = "ELITE FIGHTER";
+        else if ($totalCoins >= 2500) $newRank = "VETERANO";
+
+        $rankUp = $conn->prepare("UPDATE usuarios SET patente = ? WHERE id = ?");
+        $rankUp->execute([$newRank, $userId]);
+
         $conn->commit();
 
         $finalQuery = $conn->prepare("SELECT * FROM usuarios WHERE id = ?");
@@ -34,10 +48,10 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
             "message" => "Você desistiu do desafio. Penalidade de -50 GC aplicada.",
             "data" => [
                 "id" => (int)$finalUser['id'],
-                "name" => $finalUser['nome'],
+                "nome" => $finalUser['nome'],
                 "email" => $finalUser['email'],
                 "game_coins" => (int)$finalUser['game_coins'],
-                "rank" => $finalUser['patente']
+                "patente" => $finalUser['patente']
             ]
         ]);
     } catch (PDOException $e) {

@@ -17,10 +17,10 @@ if (!empty($data['email']) && !empty($data['password'])) {
                 "message" => "Login efetuado na arena",
                 "data" => [
                     "id" => (int)$user['id'],
-                    "name" => $user['nome'],
+                    "nome" => $user['nome'],
                     "email" => $user['email'],
                     "game_coins" => (int)$user['game_coins'],
-                    "rank" => $user['patente']
+                    "patente" => $user['patente']
                 ]
             ]);
         } else {

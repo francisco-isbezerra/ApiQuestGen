@@ -54,10 +54,10 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
             "message" => "Recompensa resgatada com sucesso!",
             "data" => [
                 "id" => (int)$finalUser['id'],
-                "name" => $finalUser['nome'],
+                "nome" => $finalUser['nome'],
                 "email" => $finalUser['email'],
                 "game_coins" => (int)$finalUser['game_coins'],
-                "rank" => $finalUser['patente']
+                "patente" => $finalUser['patente']
             ]
         ]);
     } catch (PDOException $e) {

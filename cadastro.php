@@ -25,10 +25,10 @@ if (!empty($data['name']) && !empty($data['email']) && !empty($data['password'])
             "message" => "Cadastro realizado",
             "data" => [
                 "id" => (int)$userId,
-                "name" => $nome,
+                "nome" => $nome,
                 "email" => $email,
                 "game_coins" => 1000,
-                "rank" => "RECRUTA"
+                "patente" => "RECRUTA"
             ]
         ]);
     } catch (PDOException $e) {

@@ -22,12 +22,12 @@ if ($userId != -1 && $gameId != -1) {
                 "status" => "success",
                 "data" => [
                     "id" => (int)$challenge['id'],
-                    "game_id" => (int)$challenge['jogo_id'],
-                    "title" => $challenge['titulo'],
-                    "description" => $challenge['descricao'],
-                    "reward_amount" => (int)$challenge['recompensa'],
-                    "difficulty_level" => (int)$challenge['dificuldade'],
-                    "rarity" => $challenge['raridade'],
+                    "jogo_id" => (int)$challenge['jogo_id'],
+                    "titulo" => $challenge['titulo'],
+                    "descricao" => $challenge['descricao'],
+                    "recompensa" => (int)$challenge['recompensa'],
+                    "dificuldade" => (int)$challenge['dificuldade'],
+                    "raridade" => $challenge['raridade'],
                     "status" => "AVAILABLE",
                     "tempo_restante_segundos" => 900 
                 ]

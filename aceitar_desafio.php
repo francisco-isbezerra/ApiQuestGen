@@ -25,12 +25,12 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
             "status" => "success",
             "data" => [
                 "id" => (int)$template['id'],
-                "game_id" => (int)$template['jogo_id'],
-                "title" => $template['titulo'],
-                "description" => $template['descricao'],
-                "reward_amount" => (int)$template['recompensa'],
-                "difficulty_level" => (int)$template['dificuldade'],
-                "rarity" => $template['raridade'],
+                "jogo_id" => (int)$template['jogo_id'],
+                "titulo" => $template['titulo'],
+                "descricao" => $template['descricao'],
+                "recompensa" => (int)$template['recompensa'],
+                "dificuldade" => (int)$template['dificuldade'],
+                "raridade" => $template['raridade'],
                 "status" => "ACTIVE",
                 "tempo_restante_segundos" => 900
             ]

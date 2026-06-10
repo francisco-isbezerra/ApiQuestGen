@@ -9,9 +9,9 @@ try {
     foreach ($jogos as $j) {
         $result[] = [
             "id" => (int)$j['id'],
-            "title" => $j['titulo'],
-            "image_url" => $j['imagem_url'],
-            "category" => $j['categoria']
+            "titulo" => $j['titulo'],
+            "imagem_url" => $j['imagem_url'],
+            "categoria" => $j['categoria']
         ];
     }
     
