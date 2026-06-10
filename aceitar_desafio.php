@@ -16,10 +16,15 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
             exit();
         }
 
-        $limitTime = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+        $dificuldade = (int)$template['dificuldade'];
+        $tempoTotal = 86400; // 24h default
+        if ($dificuldade == 1) $tempoTotal = 300; // 5m
+        else if ($dificuldade == 2) $tempoTotal = 900; // 15m
+        else if ($dificuldade == 3) $tempoTotal = 3600; // 1h
+        else if ($dificuldade == 4) $tempoTotal = 14400; // 4h
 
-        $ins = $conn->prepare("INSERT INTO desafios_usuarios (usuario_id, desafio_id, status, data_limite) VALUES (?, ?, 'ACTIVE', ?)");
-        $ins->execute([$userId, $challengeId, $limitTime]);
+        $ins = $conn->prepare("INSERT INTO desafios_usuarios (usuario_id, desafio_id, status, data_limite) VALUES (?, ?, 'ACTIVE', DATE_ADD(NOW(), INTERVAL ? SECOND))");
+        $ins->execute([$userId, $challengeId, $tempoTotal]);
 
         echo json_encode([
             "status" => "success",
@@ -29,10 +34,11 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
                 "titulo" => $template['titulo'],
                 "descricao" => $template['descricao'],
                 "recompensa" => (int)$template['recompensa'],
-                "dificuldade" => (int)$template['dificuldade'],
+                "dificuldade" => $dificuldade,
                 "raridade" => $template['raridade'],
                 "status" => "ACTIVE",
-                "tempo_restante_segundos" => 900
+                "tempo_restante_segundos" => $tempoTotal,
+                "tempo_total_segundos" => $tempoTotal
             ]
         ]);
     } catch (PDOException $e) {

@@ -28,7 +28,8 @@ if (!empty($data['name']) && !empty($data['email']) && !empty($data['password'])
                 "nome" => $nome,
                 "email" => $email,
                 "game_coins" => 1000,
-                "patente" => "RECRUTA"
+                "patente" => "RECRUTA",
+                "imagem_url" => null
             ]
         ]);
     } catch (PDOException $e) {

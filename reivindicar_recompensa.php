@@ -57,7 +57,8 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
                 "nome" => $finalUser['nome'],
                 "email" => $finalUser['email'],
                 "game_coins" => (int)$finalUser['game_coins'],
-                "patente" => $finalUser['patente']
+                "patente" => $finalUser['patente'],
+                "imagem_url" => $finalUser['imagem_url']
             ]
         ]);
     } catch (PDOException $e) {

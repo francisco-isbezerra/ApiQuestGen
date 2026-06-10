@@ -20,7 +20,8 @@ if (!empty($data['email']) && !empty($data['password'])) {
                     "nome" => $user['nome'],
                     "email" => $user['email'],
                     "game_coins" => (int)$user['game_coins'],
-                    "patente" => $user['patente']
+                    "patente" => $user['patente'],
+                    "imagem_url" => $user['imagem_url']
                 ]
             ]);
         } else {

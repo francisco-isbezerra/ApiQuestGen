@@ -3,7 +3,7 @@ require_once "db.php";
 $userId = isset($_GET['user_id']) ? (int)$_GET['user_id'] : -1;
 
 try {
-    $stmt = $conn->query("SELECT id, nome, game_coins, patente FROM usuarios ORDER BY game_coins DESC LIMIT 50");
+    $stmt = $conn->query("SELECT id, nome, game_coins, patente, imagem_url FROM usuarios ORDER BY game_coins DESC LIMIT 50");
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $result = [];
     $position = 1;
@@ -13,7 +13,8 @@ try {
             "nome" => $u['nome'],
             "game_coins" => (int)$u['game_coins'],
             "patente" => $u['patente'],
-            "is_current_user" => ($userId != -1 && (int)$u['id'] === $userId)
+            "is_current_user" => ($userId != -1 && (int)$u['id'] === $userId),
+            "imagem_url" => $u['imagem_url']
         ];
     }
     echo json_encode([

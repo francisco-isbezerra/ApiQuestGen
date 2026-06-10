@@ -18,6 +18,13 @@ if ($userId != -1 && $gameId != -1) {
         $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($challenge) {
+            $dificuldade = (int)$challenge['dificuldade'];
+            $tempoTotal = 86400; // 24h default
+            if ($dificuldade == 1) $tempoTotal = 300; // 5m
+            else if ($dificuldade == 2) $tempoTotal = 900; // 15m
+            else if ($dificuldade == 3) $tempoTotal = 3600; // 1h
+            else if ($dificuldade == 4) $tempoTotal = 14400; // 4h
+
             echo json_encode([
                 "status" => "success",
                 "data" => [
@@ -26,10 +33,11 @@ if ($userId != -1 && $gameId != -1) {
                     "titulo" => $challenge['titulo'],
                     "descricao" => $challenge['descricao'],
                     "recompensa" => (int)$challenge['recompensa'],
-                    "dificuldade" => (int)$challenge['dificuldade'],
+                    "dificuldade" => $dificuldade,
                     "raridade" => $challenge['raridade'],
                     "status" => "AVAILABLE",
-                    "tempo_restante_segundos" => 900 
+                    "tempo_restante_segundos" => $tempoTotal,
+                    "tempo_total_segundos" => $tempoTotal
                 ]
             ]);
         } else {
