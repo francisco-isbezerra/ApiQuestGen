@@ -18,4 +18,23 @@ try {
     ]);
     exit();
 }
+
+function obterPatente($conn, $userId, $coins) {
+    $patente = "BRONZE";
+    if ($coins < 1000) $patente = "BRONZE";
+    else if ($coins < 3000) $patente = "PRATA";
+    else if ($coins < 10000) $patente = "OURO";
+    else if ($coins < 30000) $patente = "PLATINA";
+    else if ($coins < 100000) $patente = "DIAMANTE";
+    else $patente = "LENDÁRIO";
+    
+    try {
+        $stmt = $conn->prepare("UPDATE usuarios SET patente = ? WHERE id = ? AND (patente IS NULL OR patente != ?)");
+        $stmt->execute([$patente, $userId, $patente]);
+    } catch (Exception $e) {
+        // Ignorar erros silenciosamente
+    }
+    
+    return $patente;
+}
 ?>

@@ -20,8 +20,14 @@ if (!empty($data['email']) && !empty($data['password'])) {
                     "nome" => $user['nome'],
                     "email" => $user['email'],
                     "game_coins" => (int)$user['game_coins'],
-                    "patente" => $user['patente'],
-                    "imagem_url" => $user['imagem_url']
+                    "patente" => obterPatente($conn, (int)$user['id'], (int)$user['game_coins']),
+                    "imagem_url" => $user['imagem_url'],
+                    "xp_total" => (int)$user['xp_total'],
+                    "nivel_atual" => (int)$user['nivel_atual'],
+                    "is_premium" => (int)$user['is_premium'] == 1,
+                    "moldura_neon" => $user['moldura_neon'],
+                    "clan_id" => $user['clan_id'] ? (int)$user['clan_id'] : null,
+                    "descricao" => $user['descricao']
                 ]
             ]);
         } else {

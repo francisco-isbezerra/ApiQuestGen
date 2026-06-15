@@ -7,6 +7,14 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
     $challengeId = (int)$data['challenge_id'];
 
     try {
+        // Block only if there is an active challenge (and time hasn't expired)
+        $check = $conn->prepare("SELECT COUNT(*) FROM desafios_usuarios WHERE usuario_id = ? AND status = 'ACTIVE' AND data_limite > NOW()");
+        $check->execute([$userId]);
+        if ($check->fetchColumn() > 0) {
+            echo json_encode(["status" => "error", "message" => "Você já possui um desafio ativo! Conclua ou desista dele primeiro."]);
+            exit();
+        }
+
         $stmt = $conn->prepare("SELECT * FROM desafios_disponiveis WHERE id = ?");
         $stmt->execute([$challengeId]);
         $template = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,7 +31,7 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
         else if ($dificuldade == 3) $tempoTotal = 3600; // 1h
         else if ($dificuldade == 4) $tempoTotal = 14400; // 4h
 
-        $ins = $conn->prepare("INSERT INTO desafios_usuarios (usuario_id, desafio_id, status, data_limite) VALUES (?, ?, 'ACTIVE', DATE_ADD(NOW(), INTERVAL ? SECOND))");
+        $ins = $conn->prepare("INSERT INTO desafios_usuarios (usuario_id, desafio_id, status, data_limite, data_aceito, data_upload) VALUES (?, ?, 'ACTIVE', DATE_ADD(NOW(), INTERVAL ? SECOND), NOW(), NULL)");
         $ins->execute([$userId, $challengeId, $tempoTotal]);
 
         echo json_encode([

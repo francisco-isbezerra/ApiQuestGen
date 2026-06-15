@@ -23,19 +23,13 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
         $pen = $conn->prepare("UPDATE usuarios SET game_coins = GREATEST(0, game_coins - 50) WHERE id = ?");
         $pen->execute([$userId]);
 
-        // Recalculate Rank dynamically based on coins
+        // Recalculate Rank dynamically using centralized obterPatente()
         $userQuery = $conn->prepare("SELECT game_coins FROM usuarios WHERE id = ?");
         $userQuery->execute([$userId]);
         $u = $userQuery->fetch(PDO::FETCH_ASSOC);
         $totalCoins = (int)$u['game_coins'];
 
-        $newRank = "RECRUTA";
-        if ($totalCoins >= 10000) $newRank = "LEGENDARY EXPLORER";
-        else if ($totalCoins >= 5000) $newRank = "ELITE FIGHTER";
-        else if ($totalCoins >= 2500) $newRank = "VETERANO";
-
-        $rankUp = $conn->prepare("UPDATE usuarios SET patente = ? WHERE id = ?");
-        $rankUp->execute([$newRank, $userId]);
+        $newRank = obterPatente($conn, $userId, $totalCoins);
 
         $conn->commit();
 
@@ -52,7 +46,13 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
                 "email" => $finalUser['email'],
                 "game_coins" => (int)$finalUser['game_coins'],
                 "patente" => $finalUser['patente'],
-                "imagem_url" => $finalUser['imagem_url']
+                "imagem_url" => $finalUser['imagem_url'],
+                "xp_total" => (int)$finalUser['xp_total'],
+                "nivel_atual" => (int)$finalUser['nivel_atual'],
+                "is_premium" => (int)$finalUser['is_premium'] == 1,
+                "moldura_neon" => $finalUser['moldura_neon'],
+                "clan_id" => $finalUser['clan_id'] ? (int)$finalUser['clan_id'] : null,
+                "descricao" => $finalUser['descricao']
             ]
         ]);
     } catch (PDOException $e) {

@@ -28,8 +28,13 @@ if (!empty($data['name']) && !empty($data['email']) && !empty($data['password'])
                 "nome" => $nome,
                 "email" => $email,
                 "game_coins" => 1000,
-                "patente" => "RECRUTA",
-                "imagem_url" => null
+                "patente" => "PRATA",
+                "imagem_url" => null,
+                "xp_total" => 0,
+                "nivel_atual" => 1,
+                "is_premium" => false,
+                "moldura_neon" => null,
+                "clan_id" => null
             ]
         ]);
     } catch (PDOException $e) {

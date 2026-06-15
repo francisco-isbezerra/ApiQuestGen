@@ -5,6 +5,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
 require_once "db.php";
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
@@ -43,7 +44,7 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
         $baseXp = 25;
         $rewardXp = $isPremium ? ($baseXp * 2) : $baseXp;
 
-        // Atualizar status do desafio para COMPLETED
+        // Atualizar status do desafio
         $up = $conn->prepare("UPDATE desafios_usuarios SET status = 'COMPLETED' WHERE id = ?");
         $up->execute([$row['id']]);
 
@@ -52,7 +53,7 @@ if (!empty($data['user_id']) && !empty($data['challenge_id'])) {
         $newLevel = 1 + intval($newXpTotal / 100);
         $newCoins = (int)$u['game_coins'] + $rewardCoins;
 
-        // Recalcular patente
+        // Recalcular patente com o sistema centralizado
         $newRank = obterPatente($conn, $userId, $newCoins);
 
         $userUp = $conn->prepare("UPDATE usuarios SET game_coins = ?, xp_total = ?, nivel_atual = ?, patente = ? WHERE id = ?");
